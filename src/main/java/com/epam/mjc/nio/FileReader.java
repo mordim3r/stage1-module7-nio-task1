@@ -1,14 +1,11 @@
 package com.epam.mjc.nio;
 
-import java.io.BufferedReader;
 import java.io.File;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.stream.Stream;
 
 
@@ -27,10 +24,19 @@ public class FileReader {
                 String value = parts[1];
 
                 switch (key) {
-                    case "Name":  profile.setName(value);                  break;
-                    case "Age":   profile.setAge(Integer.parseInt(value)); break;
-                    case "Email": profile.setEmail(value);                 break;
-                    case "Phone": profile.setPhone(Long.parseLong(value)); break;
+                    case "Name":
+                        profile.setName(value);
+                        break;
+                    case "Age":
+                        profile.setAge(Integer.parseInt(value));
+                        break;
+                    case "Email":
+                        profile.setEmail(value);
+                        break;
+                    case "Phone":
+                        profile.setPhone(Long.parseLong(value));
+                        break;
+                    default: break;
                 }
             });
 
@@ -39,4 +45,5 @@ public class FileReader {
         }
 
         return profile;
-    }}
+    }
+}
