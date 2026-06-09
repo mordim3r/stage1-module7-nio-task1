@@ -1,48 +1,42 @@
 package com.epam.mjc.nio;
 
+import java.io.BufferedReader;
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file){
+    public Profile getDataFromFile(File file) {
         Profile profile = new Profile();
-       // Path path = file.toPath();
+        Path path = file.toPath();
 
-        try{
-            List<String> lines = Files.readAllLines(file.toPath());
-            String[]parts;
-            String key;
-            String value;
-           for (String i:lines){
-            parts =i.split(":\\s*",2);
-            key= parts[0];
-            value=parts[1];
-            switch (key){
-                case "Name": profile.setName(value);
-                break;
-                case "Age": profile.setAge(Integer.parseInt(value));
-                    break;
-                case "Email": profile.setEmail(value);
-                    break;
-                case "Phone": profile.setPhone(Long.parseLong(value));
-                    break;
+        try (Stream<String> lines = Files.lines(path)) { // ✅ NIO + try-with-resources
+            lines.forEach(line -> {
+                String[] parts = line.split(":\\s*", 2);
+                if (parts.length < 2) return;
 
-            }
-           }
+                String key = parts[0];
+                String value = parts[1];
+
+                switch (key) {
+                    case "Name":  profile.setName(value);                  break;
+                    case "Age":   profile.setAge(Integer.parseInt(value)); break;
+                    case "Email": profile.setEmail(value);                 break;
+                    case "Phone": profile.setPhone(Long.parseLong(value)); break;
+                }
+            });
 
         } catch (IOException e) {
-         e.printStackTrace();
+            System.err.println("не удалось прочесть файл: " + e.getMessage());
         }
 
-
-
         return profile;
-    }
-}
+    }}
