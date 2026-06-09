@@ -38,7 +38,7 @@ public class FileReader {
            }
 
         } catch (IOException e) {
-            System.err.println("не удалось прочесть файл"+e.getMessage());
+         e.printStackTrace();
         }
 
 
